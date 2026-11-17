@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grand Gear: Data Deletion</title>
+<meta name="description" content="How to delete your Grand Gear: Drag & Tuning cloud data.">
+<style>
+:root {
+  --bg: #f6f5f1; --fg: #1d2120; --muted: #5b625f; --line: #d9d6cc; --card: #ffffff; --accent: #0f7a55;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #111513; --fg: #e8ece9; --muted: #9aa49f; --line: #2a312d; --card: #171c19; --accent: #5ee0a6; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 44rem; margin: 0 auto; padding-block: 40px 64px; }
+nav { display: flex; gap: 12px; font-size: 14px; margin-bottom: 24px; }
+nav a { color: var(--accent); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 8px; text-wrap: balance; }
+h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+p, li { color: var(--fg); }
+.meta { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+.summary { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
+.summary ul { margin: 0; padding-left: 20px; }
+a { color: var(--accent); }
+section + section { margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+<nav><a href="#en">English</a><a href="#ru">Русский</a><a href="../privacy/">Privacy policy</a></nav>
+
+<section id="en" lang="en">
+<h1>Grand Gear: Drag &amp; Tuning — delete your cloud data</h1>
+<p class="meta">Developer: Nitro Owl · Contact: <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a></p>
+
+<h2>In the game</h2>
+<p>Open Settings → Account → Google Play → Delete cloud data and confirm. This deletes your cloud save record and your Firebase account right away. Progress on the phone stays; uninstalling the game or clearing its data removes it from the phone.</p>
+
+<h2>If you cannot open the game</h2>
+<ul>
+<li><strong>With Google Play Games.</strong> Install the game on any Android phone, sign in with the same Play Games profile and delete the data as above. Or email <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> with the subject “Delete Grand Gear data” and your Play Games gamer name. We will find the record, delete it together with the Firebase account within 30 days and reply.</li>
+<li><strong>Without Play Games.</strong> The cloud copy belongs to an anonymous account of that installation. While the game is installed, delete the data in the game. After the game is uninstalled, we cannot tell which record is yours.</li>
+</ul>
+
+<h2>What is deleted and what is kept</h2>
+<ul>
+<li>Deleted: the cloud save record and the Firebase account, including the Play Games player ID, gamer name and avatar link. Google removes the account from its backups within 180 days.</li>
+<li>Kept for a limited time: crash reports (90 days) and tap statistics (events 2 months, user-level data up to 14 months) are deleted automatically. Firebase Authentication keeps logged IP addresses for a few weeks.</li>
+</ul>
+<p>Details are in the <a href="../privacy/">privacy policy</a>.</p>
+</section>
+
+<section id="ru" lang="ru">
+<h1>Grand Gear: дрэг и тюнинг — удаление облачных данных</h1>
+<p class="meta">Разработчик: Nitro Owl · Почта: <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a></p>
+
+<h2>В игре</h2>
+<p>Откройте Настройки → Аккаунт → Google Play → Удалить облачные данные и подтвердите. Запись облачного сохранения и аккаунт Firebase удаляются сразу. Прогресс на телефоне остаётся; удаление игры или очистка её данных убирает его с телефона.</p>
+
+<h2>Если открыть игру не получается</h2>
+<ul>
+<li><strong>С Google Play Играми.</strong> Установите игру на любой телефон Android, войдите в тот же профиль Play Игр и удалите данные, как написано выше. Или напишите на <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> с темой «Удалить данные Grand Gear» и укажите игровое имя Play Игр. Мы найдём запись, удалим её вместе с аккаунтом Firebase в течение 30 дней и ответим.</li>
+<li><strong>Без Play Игр.</strong> Облачная копия принадлежит анонимному аккаунту этой установки. Пока игра установлена, удалите данные в игре. После удаления игры мы не можем определить, какая запись ваша.</li>
+</ul>
+
+<h2>Что удаляется, а что хранится</h2>
+<ul>
+<li>Удаляется: запись облачного сохранения и аккаунт Firebase, в том числе идентификатор игрока, игровое имя и ссылка на аватар Play Игр. Google стирает аккаунт из резервных копий в течение 180 дней.</li>
+<li>Хранится ограниченный срок: отчёты о сбоях (90 дней) и статистика нажатий (события 2 месяца, данные пользователя до 14 месяцев) удаляются автоматически. Firebase Authentication хранит журнал IP-адресов несколько недель.</li>
+</ul>
+<p>Подробнее — в <a href="../privacy/#ru">политике конфиденциальности</a>.</p>
+</section>
+</main>
+</body>
+</html>
