@@ -8,10 +8,11 @@
 <style>
 :root {
   --bg: #f6f5f1; --fg: #1d2120; --muted: #5b625f; --line: #d9d6cc; --card: #ffffff; --accent: #0f7a55;
+  --field: #ffffff; --error: #b3261e; --on-accent: #ffffff;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #111513; --fg: #e8ece9; --muted: #9aa49f; --line: #2a312d; --card: #171c19; --accent: #5ee0a6; color-scheme: dark; }
+  :root { --bg: #111513; --fg: #e8ece9; --muted: #9aa49f; --line: #2a312d; --card: #171c19; --accent: #5ee0a6; --field: #0d110f; --error: #ffb4ab; --on-accent: #08130e; color-scheme: dark; }
 }
 * { box-sizing: border-box; }
 body {
@@ -21,16 +22,24 @@ body {
   padding-right: max(16px, env(safe-area-inset-right, 0px));
 }
 main { max-width: 44rem; margin: 0 auto; padding-block: 40px 64px; }
-nav { display: flex; gap: 12px; font-size: 14px; margin-bottom: 24px; }
+nav { display: flex; gap: 12px; font-size: 14px; margin-bottom: 24px; flex-wrap: wrap; }
 nav a { color: var(--accent); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; }
 h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 8px; text-wrap: balance; }
 h2 { font-size: 1.15rem; margin: 32px 0 8px; }
 p, li { color: var(--fg); }
 .meta { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
-.summary { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
-.summary ul { margin: 0; padding-left: 20px; }
 a { color: var(--accent); }
 section + section { margin-top: 72px; padding-top: 40px; border-top: 1px solid var(--line); }
+form { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; display: grid; gap: 16px; margin-top: 12px; }
+label { display: grid; gap: 4px; font-weight: 600; }
+.hint { font-weight: 400; color: var(--muted); font-size: 14px; }
+input { font: inherit; color: var(--fg); background: var(--field); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; width: 100%; }
+input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+button { font: inherit; font-weight: 600; justify-self: start; color: var(--on-accent); background: var(--accent); border: 0; border-radius: 999px; padding: 10px 20px; cursor: pointer; }
+button:disabled { opacity: .6; cursor: progress; }
+.status { margin: 0; min-height: 1.6em; }
+.status.error { color: var(--error); }
+.note { color: var(--muted); font-size: 14px; margin: 0; }
 </style>
 </head>
 <body>
@@ -44,15 +53,27 @@ section + section { margin-top: 72px; padding-top: 40px; border-top: 1px solid v
 <h2>In the game</h2>
 <p>Open Settings → Account → Google Play → Delete cloud data and confirm. This deletes your cloud save record and your Firebase account right away. Progress on the phone stays; uninstalling the game or clearing its data removes it from the phone.</p>
 
+<h2>Request deletion without the game</h2>
+<p>Send the form below. We delete the cloud save record and the Firebase account within 30 days. If the gamer name and the deletion code both match one account, the data is deleted automatically, usually within a day. Otherwise we check the request by hand and reply to the email you give.</p>
+<form class="deletion" data-lang="en" novalidate>
+<label>Play Games gamer name<span class="hint">Leave empty if you played without Google Play Games.</span><input name="name" maxlength="100" autocomplete="off"></label>
+<label>Deletion code<span class="hint">In the game: Settings → Account, next to “Delete cloud data”, for example AB12-CD34. Newer versions of the game show it.</span><input name="code" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+<label>Email for the reply<span class="hint">Optional. Without it we cannot tell you when the data is deleted.</span><input name="contact" type="email" maxlength="200" autocomplete="email"></label>
+<button type="submit">Send request</button>
+<p class="status" role="status" aria-live="polite"></p>
+<p class="note">We keep what you enter only to handle the request and delete it when the request is closed.</p>
+</form>
+
 <h2>If you cannot open the game</h2>
 <ul>
-<li><strong>With Google Play Games.</strong> Install the game on any Android phone, sign in with the same Play Games profile and delete the data as above. Or email <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> with the subject “Delete Grand Gear data” and your Play Games gamer name. We will find the record, delete it together with the Firebase account within 30 days and reply.</li>
-<li><strong>Without Play Games.</strong> The cloud copy belongs to an anonymous account of that installation. While the game is installed, delete the data in the game. After the game is uninstalled, we cannot tell which record is yours.</li>
+<li><strong>With Google Play Games.</strong> Install the game on any Android phone, sign in with the same Play Games profile and delete the data as above. Or send the form with your gamer name and, if you have it, the deletion code. You can also email <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> with the subject “Delete Grand Gear data” and your gamer name.</li>
+<li><strong>Without Play Games.</strong> The cloud copy belongs to an anonymous account of that installation. While the game is installed, delete the data in the game. If you wrote down the deletion code, send the form with the code only. Without the code we cannot tell which record is yours; it is deleted automatically after 12 months without updates.</li>
 </ul>
 
 <h2>What is deleted and what is kept</h2>
 <ul>
 <li>Deleted: the cloud save record and the Firebase account, including the Play Games player ID, gamer name and avatar link. Google removes the account from its backups within 180 days.</li>
+<li>Deleted automatically: cloud records that have not been updated for 12 months (24 months for Play Games accounts), together with their accounts.</li>
 <li>Kept for a limited time: crash reports (90 days) and tap statistics (events 2 months, user-level data up to 14 months) are deleted automatically. Firebase Authentication keeps logged IP addresses for a few weeks.</li>
 </ul>
 <p>Details are in the <a href="../privacy/">privacy policy</a>.</p>
@@ -65,19 +86,119 @@ section + section { margin-top: 72px; padding-top: 40px; border-top: 1px solid v
 <h2>В игре</h2>
 <p>Откройте Настройки → Аккаунт → Google Play → Удалить облачные данные и подтвердите. Запись облачного сохранения и аккаунт Firebase удаляются сразу. Прогресс на телефоне остаётся; удаление игры или очистка её данных убирает его с телефона.</p>
 
+<h2>Запрос на удаление без игры</h2>
+<p>Отправьте форму ниже. Мы удалим запись облачного сохранения и аккаунт Firebase в течение 30 дней. Если игровое имя и код для удаления совпали с одним аккаунтом, данные удаляются автоматически, обычно в течение суток. Иначе мы проверим заявку вручную и ответим на указанную почту.</p>
+<form class="deletion" data-lang="ru" novalidate>
+<label>Игровое имя Play Игр<span class="hint">Оставьте пустым, если играли без Google Play Игр.</span><input name="name" maxlength="100" autocomplete="off"></label>
+<label>Код для удаления<span class="hint">В игре: Настройки → Аккаунт, рядом с кнопкой «Удалить облачные данные», например AB12-CD34. Его показывают новые версии игры.</span><input name="code" maxlength="20" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+<label>Почта для ответа<span class="hint">Необязательно. Без неё мы не сможем сообщить, что данные удалены.</span><input name="contact" type="email" maxlength="200" autocomplete="email"></label>
+<button type="submit">Отправить заявку</button>
+<p class="status" role="status" aria-live="polite"></p>
+<p class="note">Введённое храним только для обработки заявки и удаляем, когда заявка закрыта.</p>
+</form>
+
 <h2>Если открыть игру не получается</h2>
 <ul>
-<li><strong>С Google Play Играми.</strong> Установите игру на любой телефон Android, войдите в тот же профиль Play Игр и удалите данные, как написано выше. Или напишите на <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> с темой «Удалить данные Grand Gear» и укажите игровое имя Play Игр. Мы найдём запись, удалим её вместе с аккаунтом Firebase в течение 30 дней и ответим.</li>
-<li><strong>Без Play Игр.</strong> Облачная копия принадлежит анонимному аккаунту этой установки. Пока игра установлена, удалите данные в игре. После удаления игры мы не можем определить, какая запись ваша.</li>
+<li><strong>С Google Play Играми.</strong> Установите игру на любой телефон Android, войдите в тот же профиль Play Игр и удалите данные, как написано выше. Или отправьте форму с игровым именем и, если он у вас есть, кодом для удаления. Можно и написать на <a href="mailto:heavyweightlorry@gmail.com">heavyweightlorry@gmail.com</a> с темой «Удалить данные Grand Gear» и игровым именем.</li>
+<li><strong>Без Play Игр.</strong> Облачная копия принадлежит анонимному аккаунту этой установки. Пока игра установлена, удалите данные в игре. Если вы записали код для удаления, отправьте форму только с кодом. Без кода мы не можем определить, какая запись ваша; она удалится автоматически через 12 месяцев без обновлений.</li>
 </ul>
 
 <h2>Что удаляется, а что хранится</h2>
 <ul>
 <li>Удаляется: запись облачного сохранения и аккаунт Firebase, в том числе идентификатор игрока, игровое имя и ссылка на аватар Play Игр. Google стирает аккаунт из резервных копий в течение 180 дней.</li>
+<li>Удаляется автоматически: облачные записи, которые не обновлялись 12 месяцев (24 месяца для аккаунтов с Play Играми), вместе с их аккаунтами.</li>
 <li>Хранится ограниченный срок: отчёты о сбоях (90 дней) и статистика нажатий (события 2 месяца, данные пользователя до 14 месяцев) удаляются автоматически. Firebase Authentication хранит журнал IP-адресов несколько недель.</li>
 </ul>
 <p>Подробнее — в <a href="../privacy/#ru">политике конфиденциальности</a>.</p>
 </section>
 </main>
+<script>
+(function () {
+  var API_KEY = "AIzaSyCsAe7s-bRvRsFKP1jhxHm65t-fx4nauCo";
+  var PROJECT = "grand-gear";
+  var COLLECTION = "deletionRequests";
+  var TEXT = {
+    en: {
+      empty: "Enter the gamer name or the deletion code.",
+      email: "Check the email address or leave it empty.",
+      sending: "Sending…",
+      done: "Request received. The data will be deleted within 30 days.",
+      failed: "Could not send the request. Check the connection and try again, or email heavyweightlorry@gmail.com."
+    },
+    ru: {
+      empty: "Укажите игровое имя или код для удаления.",
+      email: "Проверьте адрес почты или оставьте поле пустым.",
+      sending: "Отправляем…",
+      done: "Заявка принята. Данные удалим в течение 30 дней.",
+      failed: "Не удалось отправить заявку. Проверьте связь и попробуйте ещё раз или напишите на heavyweightlorry@gmail.com."
+    }
+  };
+
+  function documentId() {
+    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var bytes = new Uint8Array(20);
+    crypto.getRandomValues(bytes);
+    var id = "";
+    for (var i = 0; i < bytes.length; i++) id += chars[bytes[i] % chars.length];
+    return id;
+  }
+
+  function post(url, body, token) {
+    var headers = { "Content-Type": "application/json" };
+    if (token) headers.Authorization = "Bearer " + token;
+    return fetch(url, { method: "POST", headers: headers, body: JSON.stringify(body) }).then(function (r) {
+      if (!r.ok) throw new Error(url.split("?")[0] + " " + r.status);
+      return r.json();
+    });
+  }
+
+  function send(name, code, contact) {
+    if (!API_KEY) return Promise.reject(new Error("no web API key"));
+    var auth = "https://identitytoolkit.googleapis.com/v1/accounts:";
+    return post(auth + "signUp?key=" + API_KEY, { returnSecureToken: true }).then(function (user) {
+      var root = "projects/" + PROJECT + "/databases/(default)/documents";
+      var write = {
+        update: {
+          name: root + "/" + COLLECTION + "/" + documentId(),
+          fields: { name: { stringValue: name }, code: { stringValue: code }, contact: { stringValue: contact } }
+        },
+        updateTransforms: [{ fieldPath: "createdAt", setToServerValue: "REQUEST_TIME" }],
+        currentDocument: { exists: false }
+      };
+      return post("https://firestore.googleapis.com/v1/" + root + ":commit", { writes: [write] }, user.idToken).then(function () {
+        post(auth + "delete?key=" + API_KEY, { idToken: user.idToken }).catch(function () {});
+      });
+    });
+  }
+
+  document.querySelectorAll("form.deletion").forEach(function (form) {
+    var text = TEXT[form.dataset.lang] || TEXT.en;
+    var status = form.querySelector(".status");
+    var button = form.querySelector("button");
+    function show(message, error) {
+      status.textContent = message;
+      status.classList.toggle("error", !!error);
+    }
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var name = form.elements.name.value.trim();
+      var code = form.elements.code.value.trim();
+      var contact = form.elements.contact.value.trim();
+      if (!name && !code) return show(text.empty, true);
+      if (contact && !form.elements.contact.checkValidity()) return show(text.email, true);
+      button.disabled = true;
+      show(text.sending, false);
+      send(name, code, contact).then(function () {
+        form.reset();
+        show(text.done, false);
+      }).catch(function () {
+        show(text.failed, true);
+      }).then(function () {
+        button.disabled = false;
+      });
+    });
+  });
+})();
+</script>
 </body>
 </html>
